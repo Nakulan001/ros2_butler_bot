@@ -1,0 +1,149 @@
+<?xml version="1.0" ?>
+<robot name="b_bot1" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find b_bot_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find b_bot_description)/urdf/b_bot.trans" />
+<xacro:include filename="$(find b_bot_description)/urdf/b_bot.gazebo" />
+<xacro:include filename="$(find b_bot_description)/urdf/gazebo_control.xacro" /> 
+
+
+<link name="base_footprint">
+</link>
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="-0.0009198582121735998 1.827731769453102e-17 0.02062085333673201" rpy="0 0 0"/>
+    <mass value="80"/>
+    <inertia
+    ixx="0.2064" ixy="0.0" ixz="0.0"
+    iyy="0.3231" iyz="0.0"
+    izz="0.4167"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <!--<material name="silver"/> -->
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<gazebo reference="base_link">
+  <material>Gazebo/white</material>
+</gazebo>
+
+<link name="right_wheel_1">
+  <inertial>
+    <origin xyz="1.1094058068039647e-08 -0.009999999999999981 1.049641964508824e-07" rpy="0 0 0"/>
+    <mass value="10"/>
+    <inertia
+    ixx="0.001896" ixy="0.0" ixz="0.0"
+    iyy="0.001896" iyz="0.0"
+    izz="0.003125"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.056645 0.075 -0.010451" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.056645 0.075 -0.010451" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/right_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<gazebo reference="right_wheel_1">
+  <material>Gazebo/Grey</material>
+</gazebo>
+
+<link name="left_wheel_1">
+  <inertial>
+    <origin xyz="1.1094058088856329e-08 0.010000000000000009 1.0496419643526989e-07" rpy="0 0 0"/>
+    <mass value="10"/>
+   <inertia
+    ixx="0.001896" ixy="0.0" ixz="0.0"
+    iyy="0.001896" iyz="0.0"
+    izz="0.003125"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.056645 -0.075 -0.010451" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.056645 -0.075 -0.010451" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/left_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<gazebo reference="left_wheel_1">
+  <material>Gazebo/Grey</material>
+</gazebo>
+
+<link name="lidar_1">
+  <inertial>
+    <origin xyz="0.0 5.3716740562920835e-18 0.009388657916551336" rpy="0 0 0"/>
+    <mass value="0.059447424304871335"/>
+    <inertia ixx="4e-06" iyy="4e-06" izz="6e-06" ixy="0.0" iyz="0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.065 -0.0 -0.032" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.065 -0.0 -0.032" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find b_bot_description)/meshes/lidar_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<gazebo reference="lidar_1">
+  <material>Gazebo/Blue</material>
+</gazebo>
+
+<joint name="base_joint" type="fixed">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent link="base_footprint"/>
+  <child link="base_link"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="right_joint" type="continuous">
+  <origin xyz="-0.056645 -0.075 0.010451" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="right_wheel_1"/>
+  <axis xyz="0.0 1.0 0.0"/>
+</joint>
+
+<joint name="left_joint" type="continuous">
+  <origin xyz="-0.056645 0.075 0.010451" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="left_wheel_1"/>
+  <axis xyz="-0.0 1.0 0.0"/>
+</joint>
+
+<joint name="lidar_joint" type="fixed">
+  <origin xyz="0.065 0.0 0.032" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="lidar_1"/>
+</joint>
+
+</robot>
